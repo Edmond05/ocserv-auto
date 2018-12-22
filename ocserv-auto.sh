@@ -514,8 +514,11 @@ function ConfigFirewall {
         iptables -I FORWARD -s ${vpnnetwork} -j ACCEPT
         iptables -I FORWARD -d ${vpnnetwork} -j ACCEPT
         iptables -t nat -A POSTROUTING -s ${vpnnetwork} -o ${eth} -j MASQUERADE
+        iptables-save > /etc/sysconfig/iptables-rules
+            #之后加载防火墙规则时可以输入如下命令
+            # iptables-restore < /etc/sysconfig/iptables-rules
         #iptables -t nat -A POSTROUTING -j MASQUERADE
-        service iptables save
+        #service iptables save
     else
         printf "\e[33mWARNING!!! Either firewalld or iptables is NOT Running! \e[0m\n"
     fi
